@@ -2,11 +2,15 @@
 ## by mantot_123
 ### Why did I make this app?
 Gym and weightlifting are 2 things that I've been getting into recently. So I figured out to myself, why not make an app that makes it easy for me to find new workouts that I could try out instead of doing the same old ones everyday?
+
 ### Dependencies
 * The latest version of Dart (I used 3.8.1 to write this project)
 * HTTP 1.4.0 or later (https://pub.dev/packages/http)
 * A command line (e.g. Windows Powershell/Command Prompt on Windows or Terminal on Linux/Mac)
 * An API key to get access to the ExerciseDB API. You can get one here: https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb
+
+### API key
+To set up the API key, create a new file from the project's root directory called `apiKey.txt` and simply put your new API key there. 
 
 ### How to run
 To start running this program, go to your operating system's command line and run this command:
