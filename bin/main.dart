@@ -1,23 +1,25 @@
+import "apiKey.dart";
 import "search.dart";
 import "helpers.dart" as helpers;
 import "savedWorkoutsFile.dart";
 import "workoutsDisplay.dart";
+import "savedWorkoutsDisplay.dart";
 import "dart:io";
 
+Search search = Search();
+
 Future<void> promptUserTargetMuscle() async {
-  Search search = Search();
   List<dynamic> muscles = await search.getData("targetList");
 
   while(true) {
     print("--------------------------------------------");
     print("Here are all the available target muscles you can select from:");
     helpers.printListNumbered(muscles);
-    print("Enter the target muscle for your exercise (type 'menu' to go back to the main menu):");
+    print("Enter the target muscle for your exercise (type 'back' to go back to the previous page):");
 
     String? targetMuscle = stdin.readLineSync();
     if(targetMuscle != null) {
-      if(targetMuscle.toLowerCase() == "menu") {
-        print("Taking you back to the main menu...");
+      if(targetMuscle.toLowerCase() == "back") {
         return;
       }
 
@@ -35,12 +37,11 @@ Future<void> promptUserTargetMuscle() async {
 
 
 Future<void> promptUserExerciseName() async {
-  Search search = Search();
   while(true) {
-    print("What name of exercise are you looking for? (Type 'menu' to go back to the main menu)");
+    print("What name of exercise are you looking for? (Type 'menu' to go back to the previous page)");
     String? exerciseName = stdin.readLineSync();
     if(exerciseName != null) {
-      if(exerciseName.toLowerCase() == "menu") {
+      if(exerciseName.toLowerCase() == "back") {
         return;
       }
 
@@ -53,19 +54,17 @@ Future<void> promptUserExerciseName() async {
 
 
 Future<void> promptUserExerciseEquipment() async {
-  Search search = Search();
   List<dynamic> equipmentList = await search.getData("equipmentList");
 
   while(true) {
     print("--------------------------------------------");
     print("Here are all the available gym equipment you can use");
     helpers.printListNumbered(equipmentList);
-    print("Enter the equipment you want to use for your exercise (type 'menu' to go back to the main menu):");
+    print("Enter the equipment you want to use for your exercise (type 'back' to go back to the previous page):");
 
     String? chosenEq = stdin.readLineSync();
     if(chosenEq != null) {
-      if(chosenEq.toLowerCase() == "menu") {
-        print("Taking you back to the main menu...");
+      if(chosenEq.toLowerCase() == "back") {
         return;
       }
 
@@ -102,12 +101,34 @@ Future<void> promptUserSearchOption() async {
   }
 }
 
-void viewSavedWorkouts() {
-  // TODO WORK ON SAVED WORKOUTS VIEWER
-  return;
+
+Future<void> viewSavedWorkouts() async {
+  SavedWorkoutsFile savedWorkoutsFile = SavedWorkoutsFile();
+
+  print("Do you want to update your saved workouts before viewing them? (type 'Y' for yes, you can leave this blank or type something else if no)");
+  String? updateConfirm = stdin.readLineSync();
+  
+  if(updateConfirm == null) {
+    return;
+  }
+
+  if(updateConfirm.toLowerCase() == "y") {
+    print("Getting all the saved workouts for you...");
+    await savedWorkoutsFile.updateSavedWorkouts();
+  }
+
+  SavedWorkoutsDisplay workoutsDisplay = SavedWorkoutsDisplay(savedWorkoutsFile.savedWorkouts);
+  print("Here are all your saved workouts:");
+  workoutsDisplay.displayWorkoutsList();
 }
 
+
 void main() async {
+  if(getApiKey() == "") {
+    print("ERROR: Please set your ExerciseDB API key in the \"apiKey.txt\" before running the program.");
+    return;
+  }
+
   while(true) {
     print("--------------------------------------------");
     print("Gym Workout Finder\nWhat do you want to do?\n'search' - Find a workout\n'saved' - View and manage your saved workouts\n'exit' - Leave the program");
@@ -117,7 +138,7 @@ void main() async {
         case "search":
           await promptUserSearchOption();
         case "saved":
-          viewSavedWorkouts();
+          await viewSavedWorkouts();
         case "exit":
           return;
         default:

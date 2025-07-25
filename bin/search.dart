@@ -12,6 +12,8 @@ class Search {
     switch(attribute) {
       case "name":
         url = Uri.https("exercisedb.p.rapidapi.com", "/exercises/name/${value}");
+      case "id":
+        url = Uri.https("exercisedb.p.rapidapi.com", "/exercises/exercise/${value}");
       case "bodyPart":
         url = Uri.https("exercisedb.p.rapidapi.com", "/exercises/bodyPart/${value}");
       case "target":
@@ -26,17 +28,22 @@ class Search {
     return url;
   }
 
-  Future<List<dynamic>> getData([String attribute = "", String data = ""]) async {
-    Uri url = getUri(attribute, data);
-    http.Response response = await http.get(
-      url,
-      headers: {
-        "x-rapidapi-key": getApiKey(),
-        "x-rapidapi-host" : "exercisedb.p.rapidapi.com"
-      });
+  Future<dynamic> getData([String attribute = "", String data = ""]) async {
+    try {
+      Uri url = getUri(attribute, data);
+      http.Response response = await http.get(
+        url,
+        headers: {
+          "x-rapidapi-key": getApiKey(),
+          "x-rapidapi-host" : "exercisedb.p.rapidapi.com"
+        });
 
-    // Converts the JSON response into a list
-    List<dynamic> dataList = convert.jsonDecode(response.body);
-    return Future.value(dataList);
+      // Converts the JSON response into a list/map
+      var dataList = convert.jsonDecode(response.body);
+      return Future.value(dataList);
+    } catch(ex) {
+      print("An error occurrred while fetching data. Check that the API is currently reachable and try again.");
+      return {};
+    }
   }
 }

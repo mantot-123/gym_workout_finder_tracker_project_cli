@@ -1,25 +1,33 @@
 import "dart:io";
+import "savedWorkoutsFile.dart";
 import "helpers.dart" as helpers;
 
 class WorkoutsDisplay {
   List<dynamic> workouts = [];
+  SavedWorkoutsFile savedWorkoutsFile = SavedWorkoutsFile();
 
   // CONSTRUCTOR METHOD
   WorkoutsDisplay(this.workouts);
 
-  Map<String, dynamic> getWorkoutById(String? id) {
-    for(Map<String, dynamic> workout in workouts) {
+  Map<String, dynamic> getWorkoutById(String id, [List<dynamic>? fromList]) {
+    // if(fromList == null) {
+    //   fromList = workouts;
+    // }
+    fromList ??= workouts; // If the "fromList" is null, give it the "workouts" list
+
+    for(Map<String, dynamic> workout in fromList) {
       if(workout["id"] == id)  {
         return workout;
       }
     }
     return {};
+
   }
 
   void displayWorkoutsList() {
     int counter = 1;
     if(workouts.isEmpty) {
-      print("Sorry, there are no workouts that match your criteria.");
+      print("Sorry, there are currently no workouts available.");
       return;
     }
 
@@ -48,7 +56,8 @@ class WorkoutsDisplay {
             continue;
           }
 
-          showFullWorkoutInfo(result);
+          promptUserWorkoutActions(result);
+          counter = 1;
       
         } else {
           print("Please enter an exercise ID.");
@@ -75,14 +84,20 @@ class WorkoutsDisplay {
     print("Instructions:");
     helpers.printListNumbered(workout["instructions"]);
     print("--------------------------------------------");
+  }
+
+  void promptUserWorkoutActions(var workout) {
+    showFullWorkoutInfo(workout);
     while(true) {
       print("What do you want to do with this exercise?\n'save' = Save this exercise to your list\n'back' = Go back to the list");
       String? command = stdin.readLineSync();
       if(command != null) {
         switch(command.toLowerCase()) {
           case "save":
-            // TODO SAVE FUNCTIONALITY HERE
-            print("Save functionality has not ben implemented yet. Please check back later.");
+            savedWorkoutsFile.addToSavedList(workout);
+            savedWorkoutsFile.writeFile();
+            print("Exercise successfully saved!");
+            return;
           case "back":
             return;
           default:
