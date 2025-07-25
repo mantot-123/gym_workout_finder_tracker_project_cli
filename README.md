@@ -3,6 +3,8 @@
 ### Why did I make this app?
 Gym and weightlifting are 2 things that I've been getting into recently. So I figured out to myself, why not make an app that makes it easy for me to find new workouts that I could try out instead of doing the same old ones everyday?
 
+I've also been learning Dart, asynchronous libraries and how to use APIs in the process of making this app, so this has been an experience for me. Who knows, I might remake this app or even make something better when I eventually think about using Flutter!
+
 ### Dependencies
 * The latest version of Dart (I used 3.8.1 to write this project)
 * HTTP 1.4.0 or later (https://pub.dev/packages/http)
@@ -28,5 +30,3 @@ Once the list of exercises are shown, you can select from one of them to view it
 ### "Saved" (view your saved exercises)
  
 You can also view exercises that you've previously saved so you can access them quicker without having to look for them again in the search menu. They are stored locally in a file, so even if you are offline, you can still access them.
-
-*Adding on to the fact that I'm still working on this feature...*
