@@ -15,11 +15,11 @@ Future<void> promptUserTargetMuscle() async {
     print("--------------------------------------------");
     print("Here are all the available target muscles you can select from:");
     helpers.printListNumbered(muscles);
-    print("Enter the target muscle for your exercise (type 'back' to go back to the previous page):");
+    print("Enter the target muscle for your exercise (type 'prev' to go back to the previous page):");
 
     String? targetMuscle = stdin.readLineSync();
     if(targetMuscle != null) {
-      if(targetMuscle.toLowerCase() == "back") {
+      if(targetMuscle.toLowerCase() == "prev") {
         return;
       }
 
@@ -38,7 +38,7 @@ Future<void> promptUserTargetMuscle() async {
 
 Future<void> promptUserExerciseName() async {
   while(true) {
-    print("What name of exercise are you looking for? (Type 'menu' to go back to the previous page)");
+    print("What name of exercise are you looking for? (Type 'back' to go back to the previous page)");
     String? exerciseName = stdin.readLineSync();
     if(exerciseName != null) {
       if(exerciseName.toLowerCase() == "back") {
@@ -90,10 +90,13 @@ Future<void> promptUserSearchOption() async {
       switch(attr.toLowerCase()) {
         case "name":
           await promptUserExerciseName();
+          break;
         case "target":
           await promptUserTargetMuscle();
+          break;
         case "equipment":
           await promptUserExerciseEquipment();
+          break;
         case "menu":
           return;
       }
