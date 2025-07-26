@@ -6,9 +6,8 @@ import "workoutsDisplay.dart";
 import "savedWorkoutsDisplay.dart";
 import "dart:io";
 
-Search search = Search();
-
 Future<void> promptUserTargetMuscle() async {
+  Search search = Search();
   List<dynamic> muscles = await search.getData("targetList");
 
   while(true) {
@@ -37,6 +36,7 @@ Future<void> promptUserTargetMuscle() async {
 
 
 Future<void> promptUserExerciseName() async {
+  Search search = Search();
   while(true) {
     print("What name of exercise are you looking for? (Type 'back' to go back to the previous page)");
     String? exerciseName = stdin.readLineSync();
@@ -54,6 +54,7 @@ Future<void> promptUserExerciseName() async {
 
 
 Future<void> promptUserExerciseEquipment() async {
+  Search search = Search();
   List<dynamic> equipmentList = await search.getData("equipmentList");
 
   while(true) {
