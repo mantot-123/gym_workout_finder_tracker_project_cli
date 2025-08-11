@@ -5,6 +5,10 @@ Gym and weightlifting are 2 things that I've been getting into recently. So I fi
 
 I've also been learning Dart, asynchronous libraries and how to use APIs in the process of making this app, so this has been an experience for me. Who knows, I might remake this app or even make something better when I eventually think about using Flutter!
 
+### How it works
+
+The app fetches the available exercises using the ExerciseDB API from RapidAPI, allowing you to search for an exercise by name, target muscles and equipment
+
 ### Dependencies
 * The latest version of Dart (I used 3.8.1 to write this project)
 * HTTP 1.4.0 or later (https://pub.dev/packages/http)
