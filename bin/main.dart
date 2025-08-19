@@ -16,20 +16,18 @@ Future<void> promptUserTargetMuscle() async {
     helpers.printListNumbered(muscles);
     print("Enter the target muscle for your exercise (type 'prev' to go back to the previous page):");
 
-    String? targetMuscle = stdin.readLineSync();
-    if(targetMuscle != null) {
-      if(targetMuscle.toLowerCase() == "prev") {
-        return;
-      }
+    String targetMuscle = stdin.readLineSync() ?? "";
 
-      if(muscles.contains(targetMuscle.toLowerCase())) {
-          List<dynamic> workouts = await search.getData("target", targetMuscle);
-          WorkoutsDisplay workoutsDisplay = WorkoutsDisplay(workouts);
-          workoutsDisplay.displayWorkoutsList();
-      } else {
-          print("Please enter a valid target muscle");
-      }
+    if(targetMuscle.toLowerCase() == "prev") {
+      return;
+    }
 
+    if(muscles.contains(targetMuscle.toLowerCase())) {
+        List<dynamic> workouts = await search.getData("target", targetMuscle);
+        WorkoutsDisplay workoutsDisplay = WorkoutsDisplay(workouts);
+        workoutsDisplay.displayWorkoutsList();
+    } else {
+        print("Please enter a valid target muscle");
     }
   }
 }
@@ -39,16 +37,15 @@ Future<void> promptUserExerciseName() async {
   Search search = Search();
   while(true) {
     print("What name of exercise are you looking for? (Type 'back' to go back to the previous page)");
-    String? exerciseName = stdin.readLineSync();
-    if(exerciseName != null) {
-      if(exerciseName.toLowerCase() == "back") {
-        return;
-      }
+    String? exerciseName = stdin.readLineSync() ?? "";
 
-      List<dynamic> workouts = await search.getData("name", exerciseName);
-      WorkoutsDisplay workoutsDisplay = WorkoutsDisplay(workouts);
-      workoutsDisplay.displayWorkoutsList();
+    if(exerciseName.toLowerCase() == "back") {
+      return;
     }
+
+    List<dynamic> workouts = await search.getData("name", exerciseName);
+    WorkoutsDisplay workoutsDisplay = WorkoutsDisplay(workouts);
+    workoutsDisplay.displayWorkoutsList();
   }
 }
 
@@ -63,20 +60,18 @@ Future<void> promptUserExerciseEquipment() async {
     helpers.printListNumbered(equipmentList);
     print("Enter the equipment you want to use for your exercise (type 'back' to go back to the previous page):");
 
-    String? chosenEq = stdin.readLineSync();
-    if(chosenEq != null) {
-      if(chosenEq.toLowerCase() == "back") {
-        return;
-      }
+    String? chosenEq = stdin.readLineSync() ?? "";
 
-      if(equipmentList.contains(chosenEq.toLowerCase())) {
-          List<dynamic> workouts = await search.getData("equipment", chosenEq);
-          WorkoutsDisplay workoutsDisplay = WorkoutsDisplay(workouts);
-          workoutsDisplay.displayWorkoutsList();
-      } else {
-          print("Please select a valid equipment.");
-      }
+    if(chosenEq.toLowerCase() == "back") {
+      return;
+    }
 
+    if(equipmentList.contains(chosenEq.toLowerCase())) {
+        List<dynamic> workouts = await search.getData("equipment", chosenEq);
+        WorkoutsDisplay workoutsDisplay = WorkoutsDisplay(workouts);
+        workoutsDisplay.displayWorkoutsList();
+    } else {
+        print("Please select a valid equipment.");
     }
   }
 }
@@ -86,21 +81,19 @@ Future<void> promptUserSearchOption() async {
   while(true) {
     print("--------------------------------------------");
     print("How do you want to find your workout?\n'name' - Search by name\n'target' - Search by target muscle\n'equipment' - Search by equipment\nTo leave, type 'menu'");
-    String? attr = stdin.readLineSync();
-    if(attr != null) {
-      switch(attr.toLowerCase()) {
-        case "name":
-          await promptUserExerciseName();
-          break;
-        case "target":
-          await promptUserTargetMuscle();
-          break;
-        case "equipment":
-          await promptUserExerciseEquipment();
-          break;
-        case "menu":
-          return;
-      }
+    String? attr = stdin.readLineSync() ?? "";
+    switch(attr.toLowerCase()) {
+      case "name":
+        await promptUserExerciseName();
+        break;
+      case "target":
+        await promptUserTargetMuscle();
+        break;
+      case "equipment":
+        await promptUserExerciseEquipment();
+        break;
+      case "menu":
+        return;
     }
   }
 }
@@ -136,18 +129,16 @@ void main() async {
   while(true) {
     print("--------------------------------------------");
     print("Gym Workout Finder\nWhat do you want to do?\n'search' - Find a workout\n'saved' - View and manage your saved workouts\n'exit' - Leave the program");
-    String? command = stdin.readLineSync();
-    if(command != null) {
-      switch(command.toLowerCase()) {
-        case "search":
-          await promptUserSearchOption();
-        case "saved":
-          await viewSavedWorkouts();
-        case "exit":
-          return;
-        default:
-          print("You have entered an invalid command. Please try again.");
-      }
+    String? command = stdin.readLineSync() ?? "";
+    switch(command.toLowerCase()) {
+      case "search":
+        await promptUserSearchOption();
+      case "saved":
+        await viewSavedWorkouts();
+      case "exit":
+        return;
+      default:
+        print("You have entered an invalid command. Please try again.");
     }
   }
 }

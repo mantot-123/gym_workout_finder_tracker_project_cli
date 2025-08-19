@@ -19,17 +19,15 @@ class SavedWorkoutsDisplay extends WorkoutsDisplay {
     showFullWorkoutInfo(workout);
     while(true) {
       print("What do you want to do with this exercise?\n'remove' = Removes this exercise from the saved list\n'back' = Go back to the previous page");
-      String? command = stdin.readLineSync();
-      if(command != null) {
-        switch(command.toLowerCase()) {
-          case "remove":
-            removeWorkoutRefreshList(workout);
-            return;
-          case "back":
-            return;
-          default:
-            print("You have entered an invalid command. Please try again.");
-        }
+      String? command = stdin.readLineSync() ?? "";
+      switch(command.toLowerCase()) {
+        case "remove":
+          removeWorkoutRefreshList(workout);
+          return;
+        case "back":
+          return;
+        default:
+          print("You have entered an invalid command. Please try again.");
       }
     }
   }

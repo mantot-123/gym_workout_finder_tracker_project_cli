@@ -43,25 +43,24 @@ class WorkoutsDisplay {
       });
       
       print("Select the workout you want by entering its ID (type 'back' to go back to the target muscles menu): ");
-      String? selectedId = stdin.readLineSync();
-      if(selectedId != null) {
-        if(selectedId != "") {
-          if(selectedId.toLowerCase() == "back") {
-            return;
-          }
-
-          var result = getWorkoutById(selectedId);
-          if(result.isEmpty) {  
-            print("The exercise you're looking for does not exist. Try finding another exercise.");
-            continue;
-          }
-
-          promptUserWorkoutActions(result);
-          counter = 1;
+      String? selectedId = stdin.readLineSync() ?? "";
       
-        } else {
-          print("Please enter an exercise ID.");
+      if(selectedId != "") {
+        if(selectedId.toLowerCase() == "back") {
+          return;
         }
+
+        var result = getWorkoutById(selectedId);
+        if(result.isEmpty) {  
+          print("The exercise you're looking for does not exist. Try finding another exercise.");
+          continue;
+        }
+
+        promptUserWorkoutActions(result);
+        counter = 1;
+    
+      } else {
+        print("Please enter an exercise ID.");
       }
     }
   }
@@ -90,19 +89,17 @@ class WorkoutsDisplay {
     showFullWorkoutInfo(workout);
     while(true) {
       print("What do you want to do with this exercise?\n'save' = Save this exercise to your list\n'back' = Go back to the list");
-      String? command = stdin.readLineSync();
-      if(command != null) {
-        switch(command.toLowerCase()) {
-          case "save":
-            savedWorkoutsFile.addToSavedList(workout);
-            savedWorkoutsFile.writeFile();
-            print("Exercise successfully saved!");
-            return;
-          case "back":
-            return;
-          default:
-            print("You have entered an invalid command. Please try again.");
-        }
+      String? command = stdin.readLineSync() ?? "";
+      switch(command.toLowerCase()) {
+        case "save":
+          savedWorkoutsFile.addToSavedList(workout);
+          savedWorkoutsFile.writeFile();
+          print("Exercise successfully saved!");
+          return;
+        case "back":
+          return;
+        default:
+          print("You have entered an invalid command. Please try again.");
       }
     }
   }
